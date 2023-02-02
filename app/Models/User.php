@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'role',
         'email',
         'password',
     ];
@@ -41,4 +42,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function createdTasks(){
+        return $this->hasMany(Task::class, 'admin_id');
+    }
+
+    public function assignedTasks(){
+        return $this->hasMany(Task::class, 'assigned_user_id');
+    }
+
+    public function isAdmin(){
+        return $this->role === 'Admin';
+    }
 }
